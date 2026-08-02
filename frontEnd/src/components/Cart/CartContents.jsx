@@ -1,4 +1,5 @@
 import React from "react";
+import { MdDeleteOutline } from "react-icons/md";
 
 const CartContents = () => {
   const cartProducts = [
@@ -16,7 +17,7 @@ const CartContents = () => {
       name: "Pant",
       size: "L",
       color: "Blue",
-      quantity: 1,
+      quantity: 2,
       price: 60,
       image: "https://picsum.photos/200?random=2",
     },
@@ -40,14 +41,23 @@ const CartContents = () => {
                 Size: {product.size} | color: {product.color}
               </p>
               <div className="flex items-center mt-2">
-                <button className="border rounded px-2 py-1 text-xl font-medium">
+                <button className="border rounded px-2 py-1 text-xl font-medium cursor-pointer">
                   -
                 </button>
-                <button className="border rounded px-2 py-1 text-xl font-medium">
+                <span className="border rounded px-2 py-1 text-xl font-medium mx-0.5">
+                  {product.quantity}
+                </span>
+                <button className="border rounded px-2 py-1 text-xl font-medium cursor-pointer">
                   +
                 </button>
               </div>
             </div>
+          </div>
+          <div>
+            <p>${product.price}</p>
+            <button>
+              <MdDeleteOutline className="h-6 w-6 text-red-500 mt-2" />
+            </button>
           </div>
         </div>
       ))}
