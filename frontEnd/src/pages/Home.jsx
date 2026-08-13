@@ -3,7 +3,8 @@ import Hero from "../components/Common/Hero";
 import GenderCollectionSection from "../products/GenderCollectionSection";
 import NewArrivals from "../products/NewArrivals";
 import BestSeller from "../products/BestSeller";
-import ProductDetails from "../products/ProductDetails";
+import YouMayLike from "../products/YouMayLike";
+import TopWearForWomen from "./../products/TopWearForWomen";
 
 const Home = () => {
   return (
@@ -12,7 +13,8 @@ const Home = () => {
       <GenderCollectionSection />
       <NewArrivals />
       <BestSeller />
-      <ProductDetails />
+      <YouMayLike />
+      <TopWearForWomen />
     </section>
   );
 };
