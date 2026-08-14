@@ -5,6 +5,8 @@ import NewArrivals from "../products/NewArrivals";
 import BestSeller from "../products/BestSeller";
 import YouMayLike from "../products/YouMayLike";
 import TopWearForWomen from "./../products/TopWearForWomen";
+import FeaturedCollection from "../products/FeaturedCollection";
+import FeaturedSection from "../products/FeaturedSection";
 
 const Home = () => {
   return (
@@ -15,6 +17,8 @@ const Home = () => {
       <BestSeller />
       <YouMayLike />
       <TopWearForWomen />
+      <FeaturedCollection />
+      <FeaturedSection />
     </section>
   );
 };
