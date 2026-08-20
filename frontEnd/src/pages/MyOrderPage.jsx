@@ -61,7 +61,7 @@ const MyOrderPage = () => {
               order.map((order) => (
                 <tr
                   key={order._id}
-                  className="border-b hover:bg-orange-50 cursor-pointer"
+                  className="border-b hover:bg-violet-50 cursor-pointer"
                 >
                   <td className="p-2 sm:p-4">
                     <img
@@ -87,7 +87,7 @@ const MyOrderPage = () => {
                   <td className="p-2 sm:p-4">{order.totalPrice}</td>
                   <td>
                     <span
-                      className={`p-2 sm:p-4
+                      className={`p-2 sm:p-4 hover:font-bold
                     
                     ${
                       order.isPaid

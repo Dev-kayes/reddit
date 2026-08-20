@@ -24,7 +24,7 @@ const Navbar = () => {
         {/* Center Navigation Links */}
         <div className="hidden md:flex items-center space-x-4">
           <Link
-            to={"#"}
+            to="/collections/all"
             className="text-gray-500 hover:text-black uppercase text-sm font-medium"
           >
             Men
