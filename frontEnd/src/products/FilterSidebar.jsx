@@ -44,6 +44,21 @@ const FilterSidebar = () => {
     });
     setPriceRange([params.minPrice || 0, params.maxPrice || 100]);
   }, [searchParams]);
+  const handleFilterChange = (e) => {
+    let { name, value, checked, type } = e.target;
+    const newFilter = { ...filter };
+    if (type === "checkbox") {
+      if (checked) {
+        newFilter[name] = [...(newFilter[name] || []), value];
+      } else {
+        newFilter[name] = newFilter[name].filter((item) => item !== value);
+      }
+    } else {
+      newFilter[name] = value;
+    }
+    setFilter(newFilter);
+    console.log(newFilter);
+  };
   return (
     <div className="p-4">
       <h3 className="text-xl font-medium text-gray-800 mb-4">Filter</h3>
@@ -51,10 +66,12 @@ const FilterSidebar = () => {
       <div className="mb-6">
         <label className="block text-gray-600 font-medium mb-2">Category</label>
         {categories.map((category) => (
-          <div className="flex items-center mb-1" key={categories}>
+          <div className="flex items-center mb-1" key={category}>
             <input
               type="radio"
               name="category"
+              value={category}
+              onChange={handleFilterChange}
               className="mr-2 w-4 h-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
             <span className="text-gray-700">{category}</span>
@@ -69,6 +86,8 @@ const FilterSidebar = () => {
             <input
               type="radio"
               name="gender"
+              value={gender}
+              onChange={handleFilterChange}
               className="mr-2 w-4 h-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
             <span className="text-gray-700">{gender}</span>
@@ -83,6 +102,8 @@ const FilterSidebar = () => {
             <button
               key={color}
               name="color"
+              value={color}
+              onClick={handleFilterChange}
               className="w-8 h-8 rounded-full border border-gray-300 cursor-pointer transition hover:scale-105 focus:ring-2 focus:ring-offset-1 focus:ring-black"
               style={{ backgroundColor: color.toLowerCase() }}
             ></button>
@@ -97,6 +118,8 @@ const FilterSidebar = () => {
             <input
               type="checkbox"
               name="size"
+              value={size}
+              onChange={handleFilterChange}
               className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
             <span className="text-gray-700">{size}</span>
@@ -111,6 +134,8 @@ const FilterSidebar = () => {
             <input
               type="checkbox"
               name="size"
+              value={materials}
+              onChange={handleFilterChange}
               className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
             <span className="text-gray-700">{materials}</span>
@@ -125,6 +150,8 @@ const FilterSidebar = () => {
             <input
               type="checkbox"
               name="size"
+              value={brands}
+              onChange={handleFilterChange}
               className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
             <span className="text-gray-700">{brands}</span>
