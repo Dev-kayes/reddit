@@ -133,7 +133,7 @@ const FilterSidebar = () => {
           <div key={materials} className="flex items-center mb-1">
             <input
               type="checkbox"
-              name="size"
+              name="material"
               value={materials}
               onChange={handleFilterChange}
               className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
@@ -149,7 +149,7 @@ const FilterSidebar = () => {
           <div key={brands} className="flex items-center mb-1">
             <input
               type="checkbox"
-              name="size"
+              name="brand"
               value={brands}
               onChange={handleFilterChange}
               className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
