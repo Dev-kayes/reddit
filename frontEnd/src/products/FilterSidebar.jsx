@@ -1,7 +1,8 @@
 import React from "react";
-import { useSearchParams } from "react-router";
+import { useSearchParams, useNavigate } from "react-router";
 
 const FilterSidebar = () => {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [filter, setFilter] = React.useState({
     category: "",
@@ -58,6 +59,26 @@ const FilterSidebar = () => {
     }
     setFilter(newFilter);
     console.log(newFilter);
+    updateURLParams(newFilter);
+  };
+  const updateURLParams = (newFilter) => {
+    const params = new URLSearchParams();
+    Object.keys(newFilter).forEach((key) => {
+      if (Array.isArray(newFilter[key]) && newFilter[key].length > 0) {
+        params.append(key, newFilter[key].join(","));
+      } else if (newFilter[key]) {
+        params.append(key, newFilter[key]);
+      }
+    });
+    setSearchParams(params);
+    navigate(`?${params.toString()}`);
+  };
+  const handlePriceRange = (e) => {
+    const newPriceRange = e.target.value;
+    setPriceRange([0, newPriceRange]);
+    const newFilter = { ...filter, minPrice: 0, maxPrice: newPriceRange };
+    setFilter(filter);
+    updateURLParams(newFilter);
   };
   return (
     <div className="p-4">
@@ -71,6 +92,7 @@ const FilterSidebar = () => {
               type="radio"
               name="category"
               value={category}
+              checked={filter.category === category}
               onChange={handleFilterChange}
               className="mr-2 w-4 h-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
@@ -87,6 +109,7 @@ const FilterSidebar = () => {
               type="radio"
               name="gender"
               value={gender}
+              checked={filter.gender === gender}
               onChange={handleFilterChange}
               className="mr-2 w-4 h-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
@@ -119,6 +142,7 @@ const FilterSidebar = () => {
               type="checkbox"
               name="size"
               value={size}
+              checked={filter.size.includes(size)}
               onChange={handleFilterChange}
               className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
@@ -135,6 +159,7 @@ const FilterSidebar = () => {
               type="checkbox"
               name="material"
               value={materials}
+              checked={filter.material.includes(materials)}
               onChange={handleFilterChange}
               className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
@@ -151,6 +176,7 @@ const FilterSidebar = () => {
               type="checkbox"
               name="brand"
               value={brands}
+              checked={filter.brand.includes(brands)}
               onChange={handleFilterChange}
               className="mr-2 h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300"
             />
@@ -167,9 +193,10 @@ const FilterSidebar = () => {
           type="range"
           name="priceRange"
           className="w-full h-2 bg-gray-300 rounded-lg cursor-pointer appearance-none"
-          max={100}
+          value={priceRange[1]}
+          onChange={handlePriceRange}
           min={0}
-          defaultValue={60}
+          max={100}
         />
         <div className="flex justify-between text-gray-600 mt-2">
           <span>${priceRange[0]}</span>

@@ -23,7 +23,7 @@ const CollectionPage = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  });
+  }, []);
   React.useEffect(() => {
     setTimeout(() => {
       const fetchProducts = [
