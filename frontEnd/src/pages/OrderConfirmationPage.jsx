@@ -53,6 +53,29 @@ const OrderConfirmationPage = () => {
               {calculatedEstimatedDelivery(checkOut.createdAt)}
             </div>
           </div>
+          <div className="mb-20">
+            {checkOut.checkOutItems.map((item) => (
+              <div key={item.productId} className="flex items-center mb-4">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="h-16
+                 w-16 object-cover rounded-e-md mr-4"
+                />
+                <div>
+                  <h4 className="text-md font-semibold ">{item.name}</h4>
+                  <p className="text-sm text-gray-500">
+                    {item.color} | {item.size}
+                  </p>
+                </div>
+                <div className="ml-auto text-right">
+                  <p className="text-md ">${item.price}</p>
+                  <p className="text-sm text-gray-500">Qty : {item.quantity}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* payment and delivery information */}
         </div>
       )}
     </div>
