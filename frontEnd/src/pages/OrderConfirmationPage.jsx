@@ -24,6 +24,12 @@ const OrderConfirmationPage = () => {
         image: "https://picsum.photos/200?random=34",
       },
     ],
+    shippingAddress: {
+      address: "123 Main St",
+      city: "New York",
+      country: "USA",
+      phone: "123-456-7890",
+    },
   };
   const calculatedEstimatedDelivery = (createdAt) => {
     const orderDate = new Date(createdAt);
@@ -76,6 +82,13 @@ const OrderConfirmationPage = () => {
             ))}
           </div>
           {/* payment and delivery information */}
+          <div>
+            <h2>Payment and Delivery Information:</h2>
+            <p>Shipping Address: {checkOut.shippingAddress.address}</p>
+            <p>city: {checkOut.shippingAddress.city}</p>
+            <p>Country: {checkOut.shippingAddress.country}</p>
+            <p>Phone: {checkOut.shippingAddress.phone}</p>
+          </div>
         </div>
       )}
     </div>
