@@ -28,7 +28,7 @@ const App = () => {
             path="orderConfirmationPage"
             element={<OrderConfirmationPage />}
           />
-          <Route path="orderDetailsPage" element={<OrderDetailsPage />} />
+          <Route path="orderDetailsPage/:id" element={<OrderDetailsPage />} />
         </Route>
         <Route>{/* admin layout */}</Route>
       </Routes>

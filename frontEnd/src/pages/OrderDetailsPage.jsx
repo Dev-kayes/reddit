@@ -1,56 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router";
 
-const checkOut = {
-  _id: "1234567",
-  createdAt: new Date(),
-  checkOutItems: [
-    {
-      productID: "1",
-      name: "Jacked",
-      color: "red",
-      size: "L",
-      quantity: 2,
-      price: 120,
-      image: "https://picsum.photos/200?random=69",
-    },
-    {
-      productID: "2",
-      name: "Pajama",
-      color: "Yellow",
-      size: "xs",
-      quantity: 3,
-      price: 150,
-      image: "https://picsum.photos/200?random=66",
-    },
-  ],
-  ShippingAddress: {
-    address: "123 Main St",
-    city: "New York",
-    country: "USA",
-  },
-};
 const OrderDetailsPage = () => {
+  const { id } = useParams();
+  let [orderDetails, setOrderDetails] = React.useState(null);
+  useEffect(() => {
+    const mockOrderDetails = {
+      _id: 12345,
+      createdAt: new Date(),
+      isPaid: true,
+      isDelivered: true,
+      paymentMethod: "Cash on Delivery",
+      shippingMethod: "Home Delivery",
+      shippingAddress: { city: "New York", country: "USA", zip: "12345" },
+      orderItems: [
+        {
+          productId: "1",
+          name: "product-1",
+          price: 100,
+          quantity: 2,
+          image: "https://picsum.photos/200?random=9",
+        },
+        {
+          productId: "2",
+          name: "product-2",
+          price: 120,
+          quantity: 3,
+          image: "https://picsum.photos/200?random=200",
+        },
+      ],
+    };
+    setOrderDetails(mockOrderDetails);
+  }, [id]);
+
   return (
-    <div className="max-w-4xl items-center mx-auto p-6 bg-white">
-      <div className="text-4xl font-bold text-center text-emerald-700 mb-8">
-        Thank You For Your Order...
-      </div>
-      {checkOut && (
-        <div className="p-6  rounded-lg border">
-          <div className="flex justify-between mb-20">
-            {/* Order Summary */}
-            <div>
-              <h2 className="text-xl font-semibold">
-                Order ID : {checkOut._id}
-              </h2>
-              <p className="text-gray-600">
-                Order Date : {new Date(checkOut.createdAt).toLocaleDateString()}
-              </p>
-            </div>
-            <div className="text-emerald-500 text-sm">Estimated Deivery: </div>
-          </div>
-        </div>
-      )}
+    <div className="max-w-7xl mx-auto p-4 sm:p-6">
+      <h2 className="text-2xl md:text-3xl font-bold mb-6">Order Details</h2>
     </div>
   );
 };
