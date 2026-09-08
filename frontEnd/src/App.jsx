@@ -10,6 +10,7 @@ import ProductDetails from "./products/ProductDetails";
 import CheckOut from "./components/Cart/CheckOut";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
+import MyOrderPage from "./pages/MyOrderPage";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
             element={<OrderConfirmationPage />}
           />
           <Route path="orderDetailsPage/:id" element={<OrderDetailsPage />} />
+          <Route path="my-orders" element={<MyOrderPage />} />
         </Route>
         <Route>{/* admin layout */}</Route>
       </Routes>
