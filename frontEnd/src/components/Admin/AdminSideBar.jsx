@@ -20,7 +20,7 @@ const AdminSideBar = () => {
           to="/admin"
           className="text-gray-500 hover:text-black uppercase text-sm font-medium"
         >
-          Rabbit
+          Kayes
         </Link>
       </div>
       <h2 className="text-xl font-medium mb-6 text-center">Admin Dashboard</h2>
