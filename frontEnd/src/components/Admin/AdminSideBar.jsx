@@ -2,6 +2,7 @@ import React from "react";
 import {
   FaBoxOpen,
   FaClipboardList,
+  FaFirstOrder,
   FaSignOutAlt,
   FaStore,
   FaUser,
@@ -42,7 +43,7 @@ const AdminSideBar = () => {
           <span>Users</span>
         </NavLink>
         <NavLink
-          to="/admin/products"
+          to="/admin/orders"
           //   className={(isActive) =>
           //     isActive
           //      && "bg-red-700 text-white py-3 px-4 rounded flex items-center space-x-2 "
@@ -55,6 +56,22 @@ const AdminSideBar = () => {
           }
         >
           <FaBoxOpen size={24} />
+          <span>Orders</span>
+        </NavLink>
+        <NavLink
+          to="/admin/products"
+          //   className={(isActive) =>
+          //     isActive
+          //      && "bg-red-700 text-white py-3 px-4 rounded flex items-center space-x-2 "
+
+          //   }
+          className={(isActive) =>
+            isActive
+              ? "bg-red-700 text-white py-3 px-4 rounded flex items-center space-x-2 "
+              : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
+          }
+        >
+          <FaFirstOrder size={24} />
           <span>Products</span>
         </NavLink>
         <NavLink

@@ -33,7 +33,7 @@ const UserManagement = () => {
   };
   return (
     <div className="max-w-7xl mx-auto p-4">
-      <div className="text2xl font-bold mb-6">Managing Users</div>
+      <div className="text2xl font-bold mb-2">Managing Users</div>
       {/* Add User */}
       <div className="p-6 rounded-lg mb-4">
         <h3 className="text-lg font-bold mb-4">Add User</h3>
@@ -91,7 +91,7 @@ const UserManagement = () => {
           Add New User
         </button>
       </form>
-      <div className="overflow-x-auto shadow-lg m-10 max-w-7xl">
+      <div className="overflow-x-auto shadow-md m-10 max-w-7xl">
         <table className="min-w-full text-left text-gray-500">
           <thead className="bg-yellow-100 text-xs uppercase text-gray-700">
             <tr>
