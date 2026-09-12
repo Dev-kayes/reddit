@@ -1,7 +1,6 @@
 import React from "react";
 import {
   FaBoxOpen,
-  FaClipboardList,
   FaFirstOrder,
   FaSignOutAlt,
   FaStore,
@@ -75,7 +74,7 @@ const AdminSideBar = () => {
           <span>Products</span>
         </NavLink>
         <NavLink
-          to=""
+          to="/"
           //   className={(isActive) =>
           //     isActive
           //      && "bg-red-700 text-white py-3 px-4 rounded flex items-center space-x-2 "
