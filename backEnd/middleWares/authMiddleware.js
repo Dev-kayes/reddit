@@ -4,15 +4,18 @@ var jwt = require("jsonwebtoken");
 //MiddleWares to protect routes
 const protect = async (req, res, next) => {
   let token;
-
+  console.log("Authorization Header:", req.headers.authorization);
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
     try {
-      token = req.header.authorization.split("")[1];
+      token = req.headers.authorization.split(" ")[1];
+      console.log("Token:", token);
       var decoded = jwt.verify(token, process.env.JWT_SECRET);
+      console.log("Decoded:", decoded);
       req.user = await User.findById(decoded.user._id).select("-password");
+      console.log("req.user:", req.user);
       next();
     } catch (error) {
       console.error(error);

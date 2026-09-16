@@ -85,6 +85,6 @@ router.post("/login", async (req, res) => {
 // @desc logged-in user's profile (protected route)
 // @access Private
 router.get("/profile", protect, async (req, res) => {
-  res.send(req);
+  res.send(req.user);
 });
 module.exports = router;
