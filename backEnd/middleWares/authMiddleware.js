@@ -27,4 +27,10 @@ const protect = async (req, res, next) => {
     throw new Error("Not authorized");
   }
 };
-module.exports = protect;
+// if admin or not
+const admin = (req, res, next) => {
+  req.user && req.user.role === "admin"
+    ? next()
+    : res.status(500).send({ msg: "Not Admin" });
+};
+module.exports = { protect, admin };

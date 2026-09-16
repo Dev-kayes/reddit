@@ -4,11 +4,14 @@ const app = express();
 const cors = require("cors");
 const dbConnect = require("./database/dbConnect");
 const userRoutes = require("./routes/UserRoutes");
+const productRoutes = require("./routes/ProductRoutes");
 app.use(express.json());
 app.use(cors());
 // API routes
-/// api/user/register
+/// api/user
 app.use("/api/user", userRoutes);
+/// api/products
+app.use("/api/products", productRoutes);
 
 const port = process.env.PORT || 3000;
 dbConnect();
