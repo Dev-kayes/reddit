@@ -9,11 +9,11 @@ const router = express.Router();
 // @desc Register user
 // @access Public
 router.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
   try {
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ error: "User Already Exists" });
-    user = new User({ name, email, password });
+    user = new User({ name, email, password, role });
     await user.save();
     const payload = { user: { _id: user._id, role: user.role } };
     jwt.sign(
