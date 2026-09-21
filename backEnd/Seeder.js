@@ -4,7 +4,6 @@ dotenv.config();
 const products = require("./data/products");
 const User = require("./models/User");
 const Product = require("./models/Product");
-const connectDB = require("./database/dbConnect");
 
 mongoose.connect(process.env.MONGO_URI);
 
