@@ -159,6 +159,7 @@ router.get("/", async (req, res) => {
       limit,
     } = req.query;
     let query = {};
+    let sort = {};
     if (collection && collection.toLocaleLowerCase() !== "all") {
       query.collections = collection;
     }
@@ -172,8 +173,8 @@ router.get("/", async (req, res) => {
     if (gender) query.gender = gender;
     if (minPrice || maxPrice) {
       query.price = {};
-      if (minPrice) query.price.gte = Number(minPrice);
-      if (maxPrice) query.price.lte = Number(maxPrice);
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
     }
     if (search) {
       query.$or = [
@@ -182,7 +183,6 @@ router.get("/", async (req, res) => {
       ];
     }
     if (sortBy) {
-      let sort = {};
       switch (sortBy) {
         case "priceAsc":
           sort = { price: 1 };
@@ -199,7 +199,6 @@ router.get("/", async (req, res) => {
       }
     }
     // Apply sorting and limits:
-    let sort = {};
     let products = await Product.find(query)
       .sort(sort)
       .limit(Number(limit) || 0);
