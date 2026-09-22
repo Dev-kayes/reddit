@@ -225,4 +225,24 @@ router.get("/:id", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+// @route GET /api/products/similar/:id
+// @desc Similar products depending on Current Product's Category and Gender
+// @access Public
+router.get("/similar/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const product = await Product.findById(id);
+    if (!product) res.status(404).send("Product not found");
+    const similarProduct = await Product.find({
+      _id: { $ne: id },
+      gender: product.gender,
+      category: product.category,
+    }).limit(4);
+    res.json(similarProduct);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+});
 module.exports = router;
