@@ -3,8 +3,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const dbConnect = require("./database/dbConnect");
-const userRoutes = require("./routes/UserRoutes");
-const productRoutes = require("./routes/ProductRoutes");
+const userRoutes = require("./routes/userRoutes");
+const productRoutes = require("./routes/productRoutes");
 app.use(express.json());
 app.use(cors());
 // API routes
