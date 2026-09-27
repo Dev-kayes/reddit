@@ -2,10 +2,10 @@ const { default: mongoose } = require("mongoose");
 
 const cartItemSchema = mongoose.Schema(
   {
-    productItems: {
+    productId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Product",
-      require: true,
+      required: true,
     },
     name: String,
     image: String,
@@ -39,4 +39,4 @@ const cartSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
-module.exports = mongoose.model("Cart", cartItemSchema);
+module.exports = mongoose.model("Cart", cartSchema);

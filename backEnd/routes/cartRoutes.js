@@ -1,7 +1,7 @@
 const express = require("express");
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
-const { protect } = require("../middleWares/authMiddleware");
+// const { protect } = require("../middleWares/authMiddleware");
 const router = express.Router();
 
 //getCart:
@@ -31,9 +31,44 @@ router.post("/", async (req, res) => {
           p.size === size &&
           p.color === color,
       );
+
       if (productIndex > -1) {
-        cart.products[productIndex].quantity += quantity += quantity;
+        cart.products[productIndex].quantity += quantity;
+      } else {
+        cart.products.push({
+          productId,
+          name: product.name,
+          image: product.images[0].url,
+          price: product.price,
+          size,
+          color,
+          quantity,
+        });
       }
+      cart.totalPrice = cart.products.reduce(
+        (acc, p) => acc + p.price * p.quantity,
+        0,
+      );
+      await cart.save();
+      return res.status(200).send(cart);
+    } else {
+      const newCart = await Cart.create({
+        user: userId ? userId : undefined,
+        guestId: guestId ? guestId : "guest_" + new Date().getTime(),
+        products: [
+          {
+            productId,
+            name: product.name,
+            image: product.images[0].url,
+            price: product.price,
+            size,
+            color,
+            quantity,
+          },
+        ],
+        totalPrice: product.price * quantity,
+      });
+      return res.status(201).send(newCart);
     }
   } catch (error) {
     console.error(error);
