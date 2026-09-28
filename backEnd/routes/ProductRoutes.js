@@ -122,7 +122,7 @@ router.put("/:id", protect, admin, async (req, res) => {
 });
 
 // @route PUT /api/products
-// @desc Update an existing Product ID
+// @desc Delete an existing Product
 // @access Private/Admin
 router.delete("/:id", protect, admin, async (req, res) => {
   try {
