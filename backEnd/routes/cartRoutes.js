@@ -156,4 +156,62 @@ router.get("/", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+// @route POST /api/cart/merge
+// @desc merge guest cart to user cart
+// @access Public
+router.post("/merge", async (req, res) => {
+  const { guestId } = req.body;
+  try {
+    const guestCart = await Cart.findOne({ guestId });
+    const userCart = await Cart.findOne({ user: req.user._id });
+    if (guestCart) {
+      if (guestCart.products.length === 0) {
+        return res.status(404).send({ message: "Guest cart is empty" });
+      }
+      if (userCart) {
+        guestCart.products.forEach((guestItem) => {
+          const productIndex = userCart.products.findIndex((p) => {
+            return (
+              p.productId.toString() === guestItem.productId.toString() &&
+              p.size === guestItem.size &&
+              p.color === guestItem.color
+            );
+          });
+          if (productIndex > -1) {
+            userCart.products[productIndex].quantity += guestItem.quantity;
+          } else {
+            userCart.products.push(guestItem);
+          }
+        });
+
+        userCart.totalPrice = userCart.product.reduce(
+          (acc, item) => acc + item.price * item.quantity,
+          0,
+        );
+        await userCart.save();
+        try {
+          await Cart.deleteOne({ guestId });
+        } catch (error) {
+          console.error("Deleting guest cart:", error);
+        }
+        res.status(200).send(userCart);
+      } else {
+        guestCart.user = req.user._id;
+        guestCart.guestId = undefined;
+        await guestCart.save();
+        res.status(200).send(guestCart);
+      }
+    } else {
+      if (userCart) {
+        res.status(200).send(userCart);
+      }
+      res.status(404).send({ message: "Guest cart not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;
