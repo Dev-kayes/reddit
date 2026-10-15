@@ -10,7 +10,7 @@ const checkOutRoutes = require("./routes/checkOutRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 app.use(express.json());
 app.use(cors());
-// API routes
+// API routes:
 /// api/user
 app.use("/api/user", userRoutes);
 /// api/products

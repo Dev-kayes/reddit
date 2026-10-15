@@ -1,6 +1,7 @@
 const express = require("express");
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
+const { protect } = require("../middleWares/authMiddleware");
 // const { protect } = require("../middleWares/authMiddleware");
 const router = express.Router();
 
@@ -21,7 +22,7 @@ router.post("/", async (req, res) => {
   try {
     const product = await Product.findById(productId);
     if (!product) {
-      res.status(404).send("Product not found");
+      return res.status(404).send("Product not found");
     }
     let cart = await getCart(userId, guestId);
     if (cart) {
@@ -160,11 +161,12 @@ router.get("/", async (req, res) => {
 // @route POST /api/cart/merge
 // @desc merge guest cart to user cart
 // @access Public
-router.post("/merge", async (req, res) => {
+router.post("/merge", protect, async (req, res) => {
   const { guestId } = req.body;
   try {
     const guestCart = await Cart.findOne({ guestId });
     const userCart = await Cart.findOne({ user: req.user._id });
+
     if (guestCart) {
       if (guestCart.products.length === 0) {
         return res.status(404).send({ message: "Guest cart is empty" });
@@ -179,24 +181,28 @@ router.post("/merge", async (req, res) => {
             );
           });
           if (productIndex > -1) {
+            // If the item already exists in the user's cart update the quantity
             userCart.products[productIndex].quantity += guestItem.quantity;
           } else {
+            // If the item doesn't exist in the user's cart add it
             userCart.products.push(guestItem);
           }
         });
 
-        userCart.totalPrice = userCart.product.reduce(
+        userCart.totalPrice = userCart.products.reduce(
           (acc, item) => acc + item.price * item.quantity,
           0,
         );
         await userCart.save();
+        // Remove the guest cart after merging
         try {
-          await Cart.deleteOne({ guestId });
+          await Cart.findOneAndDelete({ guestId });
         } catch (error) {
           console.error("Deleting guest cart:", error);
         }
         res.status(200).send(userCart);
       } else {
+        // If the user doesn't have a cart create one
         guestCart.user = req.user._id;
         guestCart.guestId = undefined;
         await guestCart.save();
@@ -204,6 +210,7 @@ router.post("/merge", async (req, res) => {
       }
     } else {
       if (userCart) {
+        // Guest cart has already been merged to user cart so just return the user cart
         res.status(200).send(userCart);
       }
       res.status(404).send({ message: "Guest cart not found" });

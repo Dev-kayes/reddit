@@ -19,7 +19,7 @@ router.post("/register", async (req, res) => {
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
-      { expiresIn: "1h" },
+      { expiresIn: "5d" },
       (err, token) => {
         if (err) {
           throw err;
@@ -48,9 +48,17 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   let { email, password } = req.body;
   try {
+    // const user = await User.findOne({ email });
+    // console.log("User found:", !!user);
+    console.log("Email received:", email);
+
     const user = await User.findOne({ email });
+
+    console.log("User found:", !!user);
     if (!user) return res.status(400).json({ error: "Invalid Credentials" });
+    console.log(user);
     const isMatchPassword = await user.matchPassword(password);
+    console.log("Password matched:", isMatchPassword);
     if (!isMatchPassword)
       return res.status(400).json({ error: "Invalid Credentials" });
     const payload = { user: { _id: user._id, role: user.role } };

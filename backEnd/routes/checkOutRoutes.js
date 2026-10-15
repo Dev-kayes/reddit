@@ -40,7 +40,7 @@ router.put("/:id/pay", protect, async (req, res) => {
   try {
     const checkOut = await CheckOut.findById(req.params.id);
     if (!checkOut) {
-      res.status(404).json({ error: "CheckOut not found" });
+      return res.status(404).json({ error: "CheckOut not found" });
     }
     if (paymentStatus === "paid") {
       checkOut.isPaid = true;
@@ -58,17 +58,23 @@ router.put("/:id/pay", protect, async (req, res) => {
   }
 });
 
-//@route POST /api/checkOut/:checkOutId/finalize
-//@desc Finalize a checkOut after successful payment confirmation
+//@route POST /api/checkOut/:id/finalize
+//@desc Finalize a checkOut & convert to an order after successful payment confirmation
 //@access Private
 router.post("/:id/finalize", protect, async (req, res) => {
   try {
     const checkOut = await CheckOut.findById(req.params.id);
+    console.log("Checkout ID:", checkOut._id);
+    console.log("isPaid:", checkOut.isPaid);
+    console.log("isFinalized:", checkOut.isFinalized);
+    console.log("Checkout Items:", checkOut.checkOutItems);
     if (!checkOut) {
       return res.status(404).json({ error: "CheckOut not found" });
     }
     if (checkOut.isPaid && !checkOut.isFinalized) {
       //create the final order based on checkOut details
+      console.log("Before Order.create");
+
       const finalOrder = await Order.create({
         user: checkOut.user,
         orderItems: checkOut.checkOutItems,
@@ -79,8 +85,11 @@ router.post("/:id/finalize", protect, async (req, res) => {
         paidAt: checkOut.paidAt,
         isDelivered: false,
         paymentStatus: "paid",
-        paymentDetails: checkOut.paymentDetails,
       });
+
+      console.log("Order created successfully:", finalOrder._id);
+
+      //Mark the checkOut as finalized
       checkOut.isFinalized = true;
       checkOut.finalizedAt = Date.now();
       await checkOut.save();
@@ -88,13 +97,20 @@ router.post("/:id/finalize", protect, async (req, res) => {
       await Cart.findOneAndDelete({ user: checkOut.user });
       res.status(201).json({ message: "CheckOut finalized", finalOrder });
     } else if (checkOut.isFinalized) {
-      res.status(400).json({ error: "CheckOut is already finalized" });
+      res.status(400).json({ error: "CheckOut already finalized" });
     } else {
       res.status(400).json({ error: "CheckOut is not paid" });
     }
+    // } catch (error) {
+    //   console.error(error);
+    //   res.status(500).json({ error: "Server error" });
+    // }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Server error" });
+    console.error("Finalize error:", error);
+
+    return res.status(500).json({
+      error: error.message,
+    });
   }
 });
 module.exports = router;

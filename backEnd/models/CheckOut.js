@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const checkOutItemSchema = mongoose.Schema(
+const checkOutItemSchema = new mongoose.Schema(
   {
     productId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -15,7 +15,7 @@ const checkOutItemSchema = mongoose.Schema(
       required: true,
     },
     price: {
-      type: String,
+      type: Number,
       required: true,
     },
     quantity: {
@@ -23,9 +23,9 @@ const checkOutItemSchema = mongoose.Schema(
       required: true,
     },
   },
-  { id: false },
+  { _id: false },
 );
-const checkOutSchema = mongoose.Schema(
+const checkOutSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,

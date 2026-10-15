@@ -19,7 +19,7 @@ const orderItemSchema = new mongoose.Schema(
   },
   { _id: false },
 );
-const orderSchema = mongoose.Schema(
+const orderSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -43,7 +43,7 @@ const orderSchema = mongoose.Schema(
     },
     isPaid: {
       type: Boolean,
-      required: true,
+
       default: false,
     },
     paidAt: {
@@ -51,7 +51,7 @@ const orderSchema = mongoose.Schema(
     },
     isDelivered: {
       type: Boolean,
-      required: true,
+
       default: false,
     },
     deliveredAt: {
