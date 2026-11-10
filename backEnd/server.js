@@ -28,7 +28,7 @@ app.use("/api/checkOut", checkOutRoutes);
 //localhost:9000/api/orders
 app.use("/api/orders", orderRoutes);
 /// api/uploadRoutes
-//localhost:9000/api/upload
+// localhost:9000/api/upload
 app.use("/api/upload", uploadRoutes);
 
 const port = process.env.PORT || 3000;

@@ -7,7 +7,7 @@ const router = express.Router();
 // @route GET /api/orders/my-orders
 // @desc Get all orders of logged-in user
 // @access Private
-//localhost:9000/api/orders/my-orders
+// localhost:9000/api/orders/my-orders
 router.get("/my-orders", protect, async (req, res) => {
   try {
     // Check all orders in database
