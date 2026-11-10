@@ -19,6 +19,7 @@ const orderItemSchema = new mongoose.Schema(
   },
   { _id: false },
 );
+
 const orderSchema = new mongoose.Schema(
   {
     user: {

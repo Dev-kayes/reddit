@@ -9,6 +9,7 @@ const router = express.Router();
 //@route POST /api/checkOut
 //@desc Create a new CheckOut
 //@access Private
+//localhost:9000/api/checkOut/
 router.post("/", protect, async (req, res) => {
   const { checkOutItems, shippingAddress, paymentMethod, totalPrice } =
     req.body;
@@ -35,6 +36,7 @@ router.post("/", protect, async (req, res) => {
 //@route POST /api/checkOut/:id/pay
 //@desc Update checkOut to mark as paid after successful payment
 //@access Private
+//localhost:9000/api/checkOut/:id/pay
 router.put("/:id/pay", protect, async (req, res) => {
   const { paymentStatus, paymentDetails } = req.body;
   try {
@@ -61,6 +63,7 @@ router.put("/:id/pay", protect, async (req, res) => {
 //@route POST /api/checkOut/:id/finalize
 //@desc Finalize a checkOut & convert to an order after successful payment confirmation
 //@access Private
+//localhost:9000/api/checkOut/:id/finalize
 router.post("/:id/finalize", protect, async (req, res) => {
   try {
     const checkOut = await CheckOut.findById(req.params.id);

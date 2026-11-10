@@ -6,6 +6,7 @@ const router = express.Router();
 // @route POST /api/products
 // @desc Create a new Product
 // @access Private/Admin
+// localhost:9000/api/products/
 router.post("/", protect, admin, async (req, res) => {
   try {
     const {
@@ -62,6 +63,7 @@ router.post("/", protect, admin, async (req, res) => {
 // @route PUT /api/products
 // @desc Update an existing Product ID
 // @access Private/Admin
+// localhost:9000/api/products/:id
 router.put("/:id", protect, admin, async (req, res) => {
   try {
     const {
@@ -124,6 +126,7 @@ router.put("/:id", protect, admin, async (req, res) => {
 // @route PUT /api/products
 // @desc Delete an existing Product
 // @access Private/Admin
+// localhost:9000/api/products/:id
 router.delete("/:id", protect, admin, async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -142,6 +145,7 @@ router.delete("/:id", protect, admin, async (req, res) => {
 // @route GET /api/products
 // @desc Get all products
 // @access Public
+// localhost:9000/api/products//
 router.get("/", async (req, res) => {
   try {
     const {
@@ -212,6 +216,7 @@ router.get("/", async (req, res) => {
 // @route GET /api/products/new-arrivals
 // @desc Retrieve lates 8 products from their creation date
 // @access Public
+// localhost:9000/api/products/new-arrivals
 router.get("/new-arrivals", async (req, res) => {
   try {
     const new_arrivals = await Product.find().sort({ createdAt: -1 }).limit(8);
@@ -225,6 +230,7 @@ router.get("/new-arrivals", async (req, res) => {
 // @route GET /api/products/best-seller
 // @desc Retrieve best-selling products by rating
 // @access Public
+// localhost:9000/api/products/best-seller
 router.get("/best-seller", async (req, res) => {
   try {
     const bestSeller = await Product.findOne().sort({ rating: -1 });
@@ -241,6 +247,7 @@ router.get("/best-seller", async (req, res) => {
 // @route GET /api/products/:id
 // @desc Get a product by ID
 // @access Public
+// localhost:9000/api/products/:id
 router.get("/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -258,6 +265,7 @@ router.get("/:id", async (req, res) => {
 // @route GET /api/products/similar/:id
 // @desc Similar products depending on Current Product's Category and Gender
 // @access Public
+// localhost:9000/api/products/similar/:id
 router.get("/similar/:id", async (req, res) => {
   const { id } = req.params;
   try {

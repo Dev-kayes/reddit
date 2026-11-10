@@ -8,6 +8,7 @@ const router = express.Router();
 // @route POST /api/user/register
 // @desc Register user
 // @access Public
+//localhost:9000/api/user/register
 router.post("/register", async (req, res) => {
   const { name, email, password, role } = req.body;
   try {
@@ -45,6 +46,7 @@ router.post("/register", async (req, res) => {
 // @route POST /api/user/login
 // @desc Login user
 // @access Public
+// localhost:9000/api/user/login
 router.post("/login", async (req, res) => {
   let { email, password } = req.body;
   try {
@@ -92,6 +94,7 @@ router.post("/login", async (req, res) => {
 // @route GET /api/user/profile
 // @desc logged-in user's profile (protected route)
 // @access Private
+// localhost:9000/api/user/profile
 router.get("/profile", protect, async (req, res) => {
   res.send(req.user);
 });

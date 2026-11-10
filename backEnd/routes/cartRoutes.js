@@ -17,6 +17,7 @@ const getCart = async (userId, guestId) => {
 // @route POST /api/cart
 // @desc Add a product to the cart for a guest or logged in user
 // @access Public
+//localhost:9000/api/cart/
 router.post("/", async (req, res) => {
   const { productId, quantity, size, color, guestId, userId } = req.body;
   try {
@@ -80,6 +81,7 @@ router.post("/", async (req, res) => {
 // @route PUT /api/cart
 // @desc Update product in quantity for a guest or logged in user
 // @access Public
+//localhost:9000/api/cart/:id
 router.put("/:id", async (req, res) => {
   const { productId, quantity, size, color, guestId, userId } = req.body;
   try {
@@ -116,6 +118,7 @@ router.put("/:id", async (req, res) => {
 // @route DELETE /api/cart
 // @desc Delete a product from the cart
 // @access Public
+//localhost:9000/api/cart/
 router.delete("/", async (req, res) => {
   const { productId, size, color, guestId, userId } = req.body;
   try {
@@ -146,6 +149,7 @@ router.delete("/", async (req, res) => {
 // @route GET /api/cart
 // @desc get user's or guest's cart
 // @access Public
+//localhost:9000/api/cart/
 router.get("/", async (req, res) => {
   const { guestId, userId } = req.query;
   try {
@@ -161,6 +165,7 @@ router.get("/", async (req, res) => {
 // @route POST /api/cart/merge
 // @desc merge guest cart to user cart
 // @access Public
+//localhost:9000/api/cart/merge
 router.post("/merge", protect, async (req, res) => {
   const { guestId } = req.body;
   try {
