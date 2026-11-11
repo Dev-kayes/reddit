@@ -42,7 +42,7 @@ router.get("/my-orders", protect, async (req, res) => {
 // @route GET /api/orders/:id
 // @desc Get order details by ID
 // @access Private
-//localhost:9000/api/orders/:id
+// localhost:9000/api/orders/:id
 router.get("/:id", protect, async (req, res) => {
   try {
     const order = await Order.findById(req.params.id).populate(
