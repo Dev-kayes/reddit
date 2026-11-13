@@ -2,7 +2,7 @@ const express = require("express");
 const CheckOut = require("../models/CheckOut");
 const Cart = require("../models/Cart");
 const Order = require("../models/Order");
-const Product = require("../models/Product");
+// const Product = require("../models/Product");
 const { protect } = require("../middleWares/authMiddleware");
 const router = express.Router();
 
@@ -11,6 +11,8 @@ const router = express.Router();
 //@access Private
 // localhost:9000/api/checkOut/
 router.post("/", protect, async (req, res) => {
+  console.log("Authenticated User:", req.user);
+  console.log("Request Body:", req.body);
   const { checkOutItems, shippingAddress, paymentMethod, totalPrice } =
     req.body;
   if (!checkOutItems || checkOutItems.length === 0) {

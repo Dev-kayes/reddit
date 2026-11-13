@@ -1,14 +1,38 @@
-import React, { useState } from "react";
-import { Link } from "react-router";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router";
 import login from "../../assets/login.webp";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleLogin = (e) => {
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log({ email: email });
-    console.log({ password: password });
+    setError("");
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("http://localhost:9000/api/user/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Unable to log in");
+      }
+
+      localStorage.setItem("token", data.token);
+      navigate("/");
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   return (
     <div className="flex items-center">
@@ -28,6 +52,7 @@ const Login = () => {
             <label className="block text-sm font-semibold mb-2">Email</label>
             <input
               type="email"
+              required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full p-2 border rounded "
@@ -39,17 +64,24 @@ const Login = () => {
               </label>
               <input
                 type="password"
+                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full p-2 border rounded "
                 placeholder="Enter your Password"
               />
             </div>
+            {error && (
+              <p role="alert" className="mb-4 text-sm text-red-600">
+                {error}
+              </p>
+            )}
             <button
               type="submit"
+              disabled={isSubmitting}
               className="w-full bg-black text-white p-2 rounded-lg font-semibold hover:bg-gray-800 transition"
             >
-              Sign Up
+              {isSubmitting ? "Signing in..." : "Sign In"}
             </button>
             <p className="mt-6 text-center text-sm">
               Don't have an Account?{" "}
