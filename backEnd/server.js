@@ -9,6 +9,8 @@ const cartRoutes = require("./routes/cartRoutes");
 const checkOutRoutes = require("./routes/checkOutRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const uploadRoutes = require("./routes/uploadRoutes.js");
+const subscriberRoutes = require("./routes/subscriberRoutes.js");
+const adminRoutes = require("./routes/adminRoutes.js");
 app.use(express.json());
 app.use(cors());
 // API routes:
@@ -30,6 +32,12 @@ app.use("/api/orders", orderRoutes);
 /// api/uploadRoutes
 // localhost:9000/api/upload
 app.use("/api/upload", uploadRoutes);
+/// api/subscriberRoutes
+// localhost:9000/api/subscriber
+app.use("/api", subscriberRoutes);
+/// api/adminRoutes
+// localhost:9000/api/admin/users
+app.use("/api/admin/users", adminRoutes);
 
 const port = process.env.PORT || 3000;
 dbConnect();
