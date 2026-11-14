@@ -11,6 +11,8 @@ const orderRoutes = require("./routes/orderRoutes");
 const uploadRoutes = require("./routes/uploadRoutes.js");
 const subscriberRoutes = require("./routes/subscriberRoutes.js");
 const adminRoutes = require("./routes/adminRoutes.js");
+const productAdminRoutes = require("./routes/productAdminRoutes.js");
+const adminOrdersRoutes = require("./routes/adminOrderRoutes.js");
 app.use(express.json());
 app.use(cors());
 // API routes:
@@ -35,9 +37,18 @@ app.use("/api/upload", uploadRoutes);
 /// api/subscriberRoutes
 // localhost:9000/api/subscriber
 app.use("/api", subscriberRoutes);
+
+// ADMIN:
+//========
 /// api/adminRoutes
 // localhost:9000/api/admin/users
 app.use("/api/admin/users", adminRoutes);
+/// api/adminProductRoutes
+// localhost:9000/api/product/admin
+app.use("/api/product/admin", productAdminRoutes);
+/// api/adminOrderRoutes
+// localhost:9000/api/order/admin
+app.use("/api/order/admin", adminOrdersRoutes);
 
 const port = process.env.PORT || 3000;
 dbConnect();
