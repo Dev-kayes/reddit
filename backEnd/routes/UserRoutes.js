@@ -4,7 +4,13 @@ var jwt = require("jsonwebtoken");
 const { protect } = require("../middleWares/authMiddleware");
 
 const router = express.Router();
-
+// @route POST /api/user/test
+// @desc Testing user
+// @access Public
+// localhost:9000/api/user/test
+router.post("/test", (req, res) => {
+  res.json({ success: true, message: "API is working fine!" });
+});
 // @route POST /api/user/register
 // @desc Register user
 // @access Public
@@ -48,21 +54,18 @@ router.post("/register", async (req, res) => {
 // @access Public
 // localhost:9000/api/user/login
 router.post("/login", async (req, res) => {
+  console.log("Login API Hit!");
+  console.log("Request Body:", req.body);
   let { email, password } = req.body;
   try {
-    // const user = await User.findOne({ email });
-    // console.log("User found:", !!user);
-    console.log("Email received:", email);
-
     const user = await User.findOne({ email });
 
-    console.log("User found:", !!user);
+    console.log("Found User:", user);
     if (!user) return res.status(400).json({ error: "Invalid Credentials" });
-    console.log(user);
     const isMatchPassword = await user.matchPassword(password);
-    console.log("Password matched:", isMatchPassword);
     if (!isMatchPassword)
       return res.status(400).json({ error: "Invalid Credentials" });
+    console.log("Password Match:", isMatchPassword);
     const payload = { user: { _id: user._id, role: user.role } };
     jwt.sign(
       payload,
@@ -86,7 +89,6 @@ router.post("/login", async (req, res) => {
       },
     );
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: error.message });
   }
 });

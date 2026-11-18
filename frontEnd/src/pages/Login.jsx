@@ -1,38 +1,21 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+//useNavigate
+import { Link } from "react-router";
 import login from "../../assets/login.webp";
+import { loginUser } from "./../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigate = useNavigate();
+  // const [isSubmitting, setIsSubmitting] = useState(false);
+  const dispatch = useDispatch();
+  // const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError("");
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch("http://localhost:9000/api/user/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Unable to log in");
-      }
-
-      localStorage.setItem("token", data.token);
-      navigate("/");
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsSubmitting(false);
-    }
+    // setIsSubmitting(true);
+    dispatch(loginUser({ email, password }));
   };
   return (
     <div className="flex items-center">
@@ -71,17 +54,14 @@ const Login = () => {
                 placeholder="Enter your Password"
               />
             </div>
-            {error && (
-              <p role="alert" className="mb-4 text-sm text-red-600">
-                {error}
-              </p>
-            )}
+
             <button
               type="submit"
-              disabled={isSubmitting}
+              // disabled={isSubmitting}
               className="w-full bg-black text-white p-2 rounded-lg font-semibold hover:bg-gray-800 transition"
             >
-              {isSubmitting ? "Signing in..." : "Sign In"}
+              Sign In
+              {/* {isSubmitting ? "Signing in..." : "Sign In"} */}
             </button>
             <p className="mt-6 text-center text-sm">
               Don't have an Account?{" "}
