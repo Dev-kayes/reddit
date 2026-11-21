@@ -145,7 +145,7 @@ router.delete("/:id", protect, admin, async (req, res) => {
 // @route GET /api/products
 // @desc Get all products
 // @access Public
-// localhost:9000/api/products//
+// localhost:9000/api/products/
 router.get("/", async (req, res) => {
   try {
     const {
