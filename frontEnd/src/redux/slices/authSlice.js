@@ -2,8 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const port_url = import.meta.env.VITE_BE_URL;
-console.log("Backend URL:", port_url);
-console.log("Login API:", `${port_url}/api/user/login`);
 // retrive user's info and token from localStorage if available
 const userFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
