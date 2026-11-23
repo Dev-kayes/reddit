@@ -15,11 +15,11 @@ export const fetchedCart = createAsyncThunk(
   "cart/fetchedCart",
   async ({ userId, guestId }, { rejectWithValue }) => {
     try {
-      const response = axios.get(
-        (`${import.meta.env.VITE_BE_URL}/api/cart`,
+      const response = await axios.get(
+        `${import.meta.env.VITE_BE_URL}/api/cart`,
         {
           params: { userId, guestId },
-        }),
+        },
       );
       return response.data;
     } catch (error) {
@@ -115,3 +115,84 @@ export const mergeCart = createAsyncThunk(
     }
   },
 );
+
+const cartSlice = createSlice({
+  name: "cart",
+  initialState: {
+    cart: loadCartFromStorage(),
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    clearCart: (state) => {
+      state.cart = { products: [] };
+      localStorage.removeItem("cart");
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchedCart.pending, (state) => {
+        ((state.loading = true), (state.error = null));
+      })
+      .addCase(fetchedCart.fulfilled, (state, action) => {
+        ((state.loading = false),
+          (state.cart = action.payload),
+          saveCartToStorage(action.payload));
+      })
+      .addCase(fetchedCart.rejected, (state, action) => {
+        ((state.loading = false),
+          (state.error = action.error.message || "Failed to fetch cart"));
+      })
+      .addCase(addToCart.pending, (state) => {
+        ((state.loading = true), (state.error = null));
+      })
+      .addCase(addToCart.fulfilled, (state, action) => {
+        ((state.loading = false),
+          (state.cart = action.payload),
+          saveCartToStorage(action.payload));
+      })
+      .addCase(addToCart.rejected, (state, action) => {
+        ((state.loading = false),
+          (state.error = action.payload?.message || "Failed to add to cart"));
+      })
+      .addCase(updateCartItemQuantity.pending, (state) => {
+        ((state.loading = true), (state.error = null));
+      })
+      .addCase(updateCartItemQuantity.fulfilled, (state, action) => {
+        ((state.loading = false),
+          (state.cart = action.payload),
+          saveCartToStorage(action.payload));
+      })
+      .addCase(updateCartItemQuantity.rejected, (state, action) => {
+        ((state.loading = false),
+          (state.error =
+            action.payload?.message || "Failed to update item quantity"));
+      })
+      .addCase(removeFromCart.pending, (state) => {
+        ((state.loading = true), (state.error = null));
+      })
+      .addCase(removeFromCart.fulfilled, (state, action) => {
+        ((state.loading = false),
+          (state.cart = action.payload),
+          saveCartToStorage(action.payload));
+      })
+      .addCase(removeFromCart.rejected, (state, action) => {
+        ((state.loading = false),
+          (state.error = action.payload?.message || "Failed to remove item"));
+      })
+      .addCase(mergeCart.pending, (state) => {
+        ((state.loading = true), (state.error = null));
+      })
+      .addCase(mergeCart.fulfilled, (state, action) => {
+        ((state.loading = false),
+          (state.cart = action.payload),
+          saveCartToStorage(action.payload));
+      })
+      .addCase(mergeCart.rejected, (state, action) => {
+        ((state.loading = false),
+          (state.error = action.payload?.message || "Failed to Merge item"));
+      });
+  },
+});
+export const { clearCart } = cartSlice.actions;
+export default cartSlice.reducer;
