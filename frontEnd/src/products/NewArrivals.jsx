@@ -1,4 +1,5 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { FiChevronLeft } from "react-icons/fi";
 import { Link } from "react-router";
@@ -10,96 +11,111 @@ const NewArrivals = () => {
   const [scrollLeft, setScrollLeft] = React.useState(false);
   const [canScrollRight, setCanScrollRight] = React.useState(true);
   const [canScrollLeft, setCanScrollLeft] = React.useState(true);
-  const newArrivals = [
-    {
-      _id: "1",
-      name: "Stylished T-Shirt",
-      price: 20,
-      images: [
-        {
-          url: "https://picsum.photos/200?random=1",
-          alt: "Stylished T-Shirt",
-        },
-      ],
-    },
-    {
-      _id: "2",
-      name: "Stylished Shirt",
-      price: 40,
-      images: [
-        {
-          url: "https://picsum.photos/200?random=2",
-          alt: "Stylished Shirt",
-        },
-      ],
-    },
-    {
-      _id: "3",
-      name: "Stylished pant",
-      price: 50,
-      images: [
-        {
-          url: "https://picsum.photos/200?random=3",
-          alt: "Stylished pant",
-        },
-      ],
-    },
-    {
-      _id: "4",
-      name: "Stylished halfPant",
-      price: 10,
-      images: [
-        {
-          url: "https://picsum.photos/200?random=4",
-          alt: "Stylished halfPantt",
-        },
-      ],
-    },
-    {
-      _id: "5",
-      name: "Stylished Panjabi",
-      price: 60,
-      images: [
-        {
-          url: "https://picsum.photos/200?random=5",
-          alt: "Stylished Panjabi",
-        },
-      ],
-    },
-    {
-      _id: "6",
-      name: "Stylished katua",
-      price: 70,
-      images: [
-        {
-          url: "https://picsum.photos/200?random=6",
-          alt: "Stylished katua",
-        },
-      ],
-    },
-    {
-      _id: "7",
-      name: "Stylished T-Shirt",
-      price: 80,
-      images: [
-        {
-          url: "https://picsum.photos/200?random=7",
-          alt: "Stylished T-Shirt",
-        },
-      ],
-    },
-    {
-      _id: "8",
-      name: "Stylished glass",
-      price: 90,
-      images: [
-        {
-          url: "https://picsum.photos/200?random=8",
-          alt: "Stylished glass",
-        },
-      ],
-    },
-  ];
+  // const newArrivals = [
+  //   {
+  //     _id: "1",
+  //     name: "Stylished T-Shirt",
+  //     price: 20,
+  //     images: [
+  //       {
+  //         url: "https://picsum.photos/200?random=1",
+  //         alt: "Stylished T-Shirt",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "2",
+  //     name: "Stylished Shirt",
+  //     price: 40,
+  //     images: [
+  //       {
+  //         url: "https://picsum.photos/200?random=2",
+  //         alt: "Stylished Shirt",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "3",
+  //     name: "Stylished pant",
+  //     price: 50,
+  //     images: [
+  //       {
+  //         url: "https://picsum.photos/200?random=3",
+  //         alt: "Stylished pant",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "4",
+  //     name: "Stylished halfPant",
+  //     price: 10,
+  //     images: [
+  //       {
+  //         url: "https://picsum.photos/200?random=4",
+  //         alt: "Stylished halfPantt",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "5",
+  //     name: "Stylished Panjabi",
+  //     price: 60,
+  //     images: [
+  //       {
+  //         url: "https://picsum.photos/200?random=5",
+  //         alt: "Stylished Panjabi",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "6",
+  //     name: "Stylished katua",
+  //     price: 70,
+  //     images: [
+  //       {
+  //         url: "https://picsum.photos/200?random=6",
+  //         alt: "Stylished katua",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "7",
+  //     name: "Stylished T-Shirt",
+  //     price: 80,
+  //     images: [
+  //       {
+  //         url: "https://picsum.photos/200?random=7",
+  //         alt: "Stylished T-Shirt",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     _id: "8",
+  //     name: "Stylished glass",
+  //     price: 90,
+  //     images: [
+  //       {
+  //         url: "https://picsum.photos/200?random=8",
+  //         alt: "Stylished glass",
+  //       },
+  //     ],
+  //   },
+  // ];
+  const [newArrivals, setNewArrivals] = useState([]);
+  useEffect(() => {
+    const fetchNewArrivals = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BE_URL}/api/products/new-arrivals`,
+        );
+        setNewArrivals(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchNewArrivals();
+  }, []);
+
   const handleOnMouseDown = (e) => {
     setIsDragging(true);
     setStartX(e.clientX - scrollRef.current.getBoundingClientRect().left);
@@ -111,7 +127,7 @@ const NewArrivals = () => {
     const walk = x - startX;
     scrollRef.current.scrollLeft = scrollLeft - walk;
   };
-  const handleOnMouseUpOrLeave = (e) => {
+  const handleOnMouseUpOrLeave = () => {
     setIsDragging(false);
   };
   // Update scroll buttons
@@ -146,7 +162,7 @@ const NewArrivals = () => {
         container.removeEventListener("scroll", updateScrollButtons);
       };
     }
-  }, []);
+  }, [newArrivals]);
   return (
     <section className="py-16 px-4 lg:px-0">
       <div className="container mx-auto text-center mb-10 relative">
